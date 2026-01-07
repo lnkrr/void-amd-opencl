@@ -61,3 +61,11 @@ LD_PRELOAD="/usr/lib/libglib-2.0.so \
     /usr/lib/libgio-2.0.so \
     /usr/lib/libgmodule-2.0.so" /opt/resolve/bin/resolve
 ```
+
+## Running Ollama
+
+RX 6600:
+
+```sh
+HSA_OVERRIDE_GFX_VERSION=10.3.0 ollama serve
+```
