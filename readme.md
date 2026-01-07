@@ -44,3 +44,20 @@ Reboot and verify:
 ```sh
 rocminfo
 ```
+
+## Running DaVinci Resolve
+
+Install the dependencies:
+
+```sh
+sudo xbps-install -Su glib pango
+```
+
+Run:
+
+```sh
+LD_PRELOAD="/usr/lib/libglib-2.0.so \
+    /usr/lib/libpango-1.0.so.0 \
+    /usr/lib/libgio-2.0.so \
+    /usr/lib/libgmodule-2.0.so" /opt/resolve/bin/resolve
+```
