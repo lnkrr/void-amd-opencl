@@ -1,0 +1,89 @@
+pkgname=amd-opencl
+version=7.1.1
+revision=1
+archs="x86_64"
+hostmakedepends="tar binutils coreutils"
+depends="libdrm ocl-icd libgcc numactl"
+short_desc="AMD ROCm OpenCL runtime"
+maintainer="lnkrr <lnkrr@proton.me>"
+license="custom:AMD"
+homepage="https://www.amd.com/en/products/software/rocm.html"
+
+_amdgpu_repo="https://repo.radeon.com/rocm/apt/$version/pool/main"
+
+_debs=(
+    "$_amdgpu_repo/c/comgr/comgr_3.0.0.70101-38~24.04_amd64.deb"
+    "$_amdgpu_repo/h/hsa-amd-aqlprofile/hsa-amd-aqlprofile_1.0.0.70101-38~24.04_amd64.deb"
+    "$_amdgpu_repo/h/hsa-rocr/hsa-rocr_1.18.0.70101-38~24.04_amd64.deb"
+    "$_amdgpu_repo/h/hsa-rocr-dev/hsa-rocr-dev_1.18.0.70101-38~24.04_amd64.deb"
+    "$_amdgpu_repo/h/hip-runtime-amd/hip-runtime-amd_7.1.52802.70101-38~24.04_amd64.deb"
+    "$_amdgpu_repo/r/rocm-core/rocm-core_7.1.1.70101-38~24.04_amd64.deb"
+    "$_amdgpu_repo/r/rocminfo/rocminfo_1.0.0.70101-38~24.04_amd64.deb"
+    "$_amdgpu_repo/r/rocm-opencl/rocm-opencl_2.0.0.70101-38~24.04_amd64.deb"
+    "$_amdgpu_repo/r/rocm-opencl-dev/rocm-opencl-dev_2.0.0.70101-38~24.04_amd64.deb"
+    "$_amdgpu_repo/r/rocm-smi-lib/rocm-smi-lib_7.8.0.70101-38~24.04_amd64.deb"
+    "$_amdgpu_repo/r/rocm-device-libs/rocm-device-libs_1.0.0.70101-38~24.04_amd64.deb"
+)
+
+_checksums=(
+    "0bf2d4ba3c0ff7a1a1818916f05ee164acb1151ea8685ae11e2c2aae7710eaf7"
+    "357ff34fbce9c006596cc5c29816a7bd7bd18146d49327ef82bfe659469383b7"
+    "0c2cc838d3cef73fa405a02e72c2bad1f24ef041a7d46bafa19d7dc0620230d8"
+    "e5a23a8ad94614a5178943b4e26c49a2bf5c70cd9a66d653f6ec17910157948f"
+    "b5d86645329574b89d57a8cc836153ec4bf3488a7b12df25e70117404c1da451"
+    "4098bbfea0e37c23d593d626a6472d6b9d5484bf6c87bc47b4f33d7939cc3161"
+    "3c5d9f908c0c3b03cec68b71feb40c27bf06161b06e9d0cbbca10836a806322e"
+    "44abc9a826dbef1d2ab2915e5e642b3cf8872ab7cba806b6181631e75f97b11b"
+    "fca577ebbaefd6f59664e7e4fafb2b7bb00a75738b5d2fbbf08b3eae99d12216"
+    "090855a6f74931d9eb8f31e1040cf07d1482bc153ee2621ecdf6d0a57f7307a8"
+    "d5e97c155473486e8ba7b2ba6b49c666301cd7accfe30f8afba6bf3aa8fb0083"
+)
+
+do_fetch() {
+    for i in "${!_debs[@]}"; do
+        file="${_debs[i]##*/}"
+        xbps-fetch -o "$file" "${_debs[i]}"
+
+        if ! echo "${_checksums[i]}  $file" | sha256sum -c -; then
+            echo "error: invalid checksum" >&2
+            return 1
+        fi
+    done
+}
+
+do_install() {
+    cd "$XBPS_BUILDDIR"
+
+    for pkg in *.deb; do
+        ar -x "$pkg"
+
+        if [[ -f data.tar.gz ]]; then
+            tar -xzf data.tar.gz
+            rm data.tar.gz
+        elif [[ -f data.tar.xz ]]; then
+            tar -xJf data.tar.xz
+            rm data.tar.xz
+        elif [[ -f data.tar.zst ]]; then
+            tar --use-compress-program=unzstd -xf data.tar.zst
+            rm data.tar.zst
+        fi
+
+        rm -f debian-binary control.tar.gz
+    done
+
+    mv opt "$DESTDIR/opt"
+    mv "$DESTDIR/opt/rocm-$version" "$DESTDIR/opt/rocm"
+
+    mkdir -p "$DESTDIR/opt/amdgpu/share/libdrm"
+    ln -s /usr/share/libdrm/amdgpu.ids "$DESTDIR/opt/amdgpu/share/libdrm/amdgpu.ids"
+
+    mkdir -p "$DESTDIR/etc/OpenCL/vendors"
+    echo /opt/rocm/lib/libamdocl64.so > "$DESTDIR/etc/OpenCL/vendors/amdocl64.icd"
+
+    mkdir -p "$DESTDIR/etc/ld.so.conf.d"
+    echo /opt/rocm/lib >> "$DESTDIR/etc/ld.so.conf.d/opencl-amd.conf"
+    echo /opt/rocm/hip/lib >> "$DESTDIR/etc/ld.so.conf.d/opencl-amd.conf"
+
+    mkdir -p "$DESTDIR/etc/profile.d"
+    echo 'export PATH="${PATH}:/opt/rocm/bin:/opt/rocm/hip/bin"' > "$DESTDIR/etc/profile.d/opencl-amd.sh"
+}
