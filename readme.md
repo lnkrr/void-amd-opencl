@@ -8,47 +8,47 @@ luciddream.**
 Prepare [void-packages](https://github.com/void-linux/void-packages):
 
 ```sh
-git clone https://github.com/void-linux/void-packages --depth 1
-cd void-packages
-./xbps-src binary-bootstrap
-cd ..
+$ git clone https://github.com/void-linux/void-packages --depth 1
+$ cd void-packages
+$ ./xbps-src binary-bootstrap
+$ cd ..
 ```
 
 Clone the repository:
 
 ```sh
-git clone https://github.com/lnkrr/void-amd-opencl && cd void-amd-opencl
+$ git clone https://github.com/lnkrr/void-amd-opencl && cd void-amd-opencl
 ```
 
 Copy the `srcpkg`:
 
 ```sh
-cp -r srcpkgs/amd-opencl ../void-packages/srcpkgs
+$ cp -r srcpkgs/amd-opencl ../void-packages/srcpkgs
 ```
 
 Build:
 
 ```sh
-cd ../void-packages
-./xbps-src pkg amd-opencl
+$ cd ../void-packages
+$ ./xbps-src pkg amd-opencl
 ```
 
 Install:
 
 ```sh
-sudo xbps-install -R hostdir/binpkgs amd-opencl
+$ sudo xbps-install -R hostdir/binpkgs amd-opencl
 ```
 
 Reboot and verify:
 
 ```sh
-rocminfo
+$ rocminfo
 ```
 
 ## Installation (via [xbps-extra](https://github.com/lnkrr/xbps-extra))
 
 ```sh
-xbps-extra https://github.com/lnkrr/void-amd-opencl amd-opencl
+$ xbps-extra https://github.com/lnkrr/void-amd-opencl amd-opencl
 ```
 
 ## Running DaVinci Resolve
@@ -56,13 +56,13 @@ xbps-extra https://github.com/lnkrr/void-amd-opencl amd-opencl
 Install the dependencies:
 
 ```sh
-sudo xbps-install -Su glib pango
+$ sudo xbps-install -Su glib pango
 ```
 
 Run:
 
 ```sh
-LD_PRELOAD="/usr/lib/libglib-2.0.so \
+$ LD_PRELOAD="/usr/lib/libglib-2.0.so \
     /usr/lib/libpango-1.0.so.0 \
     /usr/lib/libgio-2.0.so \
     /usr/lib/libgmodule-2.0.so" /opt/resolve/bin/resolve
@@ -73,5 +73,5 @@ LD_PRELOAD="/usr/lib/libglib-2.0.so \
 RX 6600:
 
 ```sh
-HSA_OVERRIDE_GFX_VERSION=10.3.0 ollama serve
+$ HSA_OVERRIDE_GFX_VERSION=10.3.0 ollama serve
 ```
