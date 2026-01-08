@@ -45,6 +45,12 @@ Reboot and verify:
 rocminfo
 ```
 
+## Installation (via [xbps-extra](https://github.com/lnkrr/xbps-extra))
+
+```sh
+xbps-extra https://github.com/lnkrr/void-amd-opencl amd-opencl
+```
+
 ## Running DaVinci Resolve
 
 Install the dependencies:
