@@ -1,5 +1,5 @@
 pkgname=amd-opencl
-version=7.1.1
+version=7.2.1
 revision=1
 archs="x86_64"
 hostmakedepends="tar binutils coreutils"
@@ -9,34 +9,36 @@ maintainer="lnkrr <lnkrr@proton.me>"
 license="custom:AMD"
 homepage="https://www.amd.com/en/products/software/rocm.html"
 
-_amdgpu_repo="https://repo.radeon.com/rocm/apt/$version/pool/main"
+_rocm_repo="https://repo.radeon.com/rocm/apt/$version/pool/main"
 
 _debs=(
-    "$_amdgpu_repo/c/comgr/comgr_3.0.0.70101-38~24.04_amd64.deb"
-    "$_amdgpu_repo/h/hsa-amd-aqlprofile/hsa-amd-aqlprofile_1.0.0.70101-38~24.04_amd64.deb"
-    "$_amdgpu_repo/h/hsa-rocr/hsa-rocr_1.18.0.70101-38~24.04_amd64.deb"
-    "$_amdgpu_repo/h/hsa-rocr-dev/hsa-rocr-dev_1.18.0.70101-38~24.04_amd64.deb"
-    "$_amdgpu_repo/h/hip-runtime-amd/hip-runtime-amd_7.1.52802.70101-38~24.04_amd64.deb"
-    "$_amdgpu_repo/r/rocm-core/rocm-core_7.1.1.70101-38~24.04_amd64.deb"
-    "$_amdgpu_repo/r/rocminfo/rocminfo_1.0.0.70101-38~24.04_amd64.deb"
-    "$_amdgpu_repo/r/rocm-opencl/rocm-opencl_2.0.0.70101-38~24.04_amd64.deb"
-    "$_amdgpu_repo/r/rocm-opencl-dev/rocm-opencl-dev_2.0.0.70101-38~24.04_amd64.deb"
-    "$_amdgpu_repo/r/rocm-smi-lib/rocm-smi-lib_7.8.0.70101-38~24.04_amd64.deb"
-    "$_amdgpu_repo/r/rocm-device-libs/rocm-device-libs_1.0.0.70101-38~24.04_amd64.deb"
+    "$_rocm_repo/r/rocprofiler-register/rocprofiler-register_0.6.0.70201-81~24.04_amd64.deb"
+    "$_rocm_repo/c/comgr/comgr_3.0.0.70201-81~24.04_amd64.deb"
+    "$_rocm_repo/h/hsa-amd-aqlprofile/hsa-amd-aqlprofile_1.0.0.70201-81~24.04_amd64.deb"
+    "$_rocm_repo/h/hsa-rocr/hsa-rocr_1.18.0.70201-81~24.04_amd64.deb"
+    "$_rocm_repo/h/hsa-rocr-dev/hsa-rocr-dev_1.18.0.70201-81~24.04_amd64.deb"
+    "$_rocm_repo/h/hip-runtime-amd/hip-runtime-amd_7.2.53211.70201-81~24.04_amd64.deb"
+    "$_rocm_repo/r/rocm-core/rocm-core_7.2.1.70201-81~24.04_amd64.deb"
+    "$_rocm_repo/r/rocminfo/rocminfo_1.0.0.70201-81~24.04_amd64.deb"
+    "$_rocm_repo/r/rocm-opencl/rocm-opencl_2.0.0.70201-81~24.04_amd64.deb"
+    "$_rocm_repo/r/rocm-opencl-dev/rocm-opencl-dev_2.0.0.70201-81~24.04_amd64.deb"
+    "$_rocm_repo/r/rocm-smi-lib/rocm-smi-lib_7.8.0.70201-81~24.04_amd64.deb"
+    "$_rocm_repo/r/rocm-device-libs/rocm-device-libs_1.0.0.70201-81~24.04_amd64.deb"
 )
 
 _checksums=(
-    "0bf2d4ba3c0ff7a1a1818916f05ee164acb1151ea8685ae11e2c2aae7710eaf7"
-    "357ff34fbce9c006596cc5c29816a7bd7bd18146d49327ef82bfe659469383b7"
-    "0c2cc838d3cef73fa405a02e72c2bad1f24ef041a7d46bafa19d7dc0620230d8"
-    "e5a23a8ad94614a5178943b4e26c49a2bf5c70cd9a66d653f6ec17910157948f"
-    "b5d86645329574b89d57a8cc836153ec4bf3488a7b12df25e70117404c1da451"
-    "4098bbfea0e37c23d593d626a6472d6b9d5484bf6c87bc47b4f33d7939cc3161"
-    "3c5d9f908c0c3b03cec68b71feb40c27bf06161b06e9d0cbbca10836a806322e"
-    "44abc9a826dbef1d2ab2915e5e642b3cf8872ab7cba806b6181631e75f97b11b"
-    "fca577ebbaefd6f59664e7e4fafb2b7bb00a75738b5d2fbbf08b3eae99d12216"
-    "090855a6f74931d9eb8f31e1040cf07d1482bc153ee2621ecdf6d0a57f7307a8"
-    "d5e97c155473486e8ba7b2ba6b49c666301cd7accfe30f8afba6bf3aa8fb0083"
+    "027f3ba3fff5f226cb9e4ec8b9fe4d5c2bc5b55db6ad292efc2d77cbcaad8d81"
+    "7aec222a4cfdaeafd8689ad9739688f74d1d7a1227d7f6db3237736f3fa2fec2"
+    "c93b312c5f4fb94176881670005ec11ece2276ab96e2d72511b6e19d18303000"
+    "680cf1dec896732a7a3324eb5650ec9ffdca95f152bbb891dea7799206a9adc5"
+    "03a9277d715bd0c97a73d2dc7455ab2edfe1bf5b9ee63a6a0356c2fa14d9d395"
+    "1a1be2e7d8e5658922084533216c6a079138f5ca5af3247181db617bff2a5e0d"
+    "a298fc25c8256d7efe0f6ed91e3eb31898c19562304b129ed80f4dac3b1844f6"
+    "416c4cd6e96c7b99007c9f0f5dd20a2c6ab4afe2ee1a7266c09d958b90266418"
+    "4b778d1db13846078cd165bbbab5e5faf0e4c7f5639beebeb5891c76976d46ce"
+    "b6eeccb8b18c0cc141f872815ef8a8ff31c66875ee8e1799f5d7ca7a72589172"
+    "9aaef95bd85dbc8131fbc019c9c57246cc39d8a617b5832a212a277f19bfd87a"
+    "5cdbb764a564c9749c026314aa376ead100bec3419c96bc676577896bbf52827"
 )
 
 do_fetch() {
